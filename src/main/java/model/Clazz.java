@@ -41,4 +41,9 @@ public class Clazz {
     public void setCla_Room(String cla_Room) {
         this.cla_Room = cla_Room;
     }
+
+    @Override
+    public String toString() {
+        return cla_Name;
+    }
 }

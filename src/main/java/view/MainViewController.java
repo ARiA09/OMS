@@ -9,13 +9,17 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import jdbc.DatabaseConnection;
 import model.Clazz;
 import model.Course;
@@ -35,6 +39,8 @@ public class MainViewController implements Initializable {
     private TableColumn<Course, DateCell> co_start;
     @FXML
     private TableColumn<Course, DateCell> co_end;
+    @FXML
+    private TableColumn<Clazz, Clazz> cla_Room_List;
 
     @FXML
     private TableView<Clazz> classes;
@@ -48,16 +54,19 @@ public class MainViewController implements Initializable {
 
     public void initialize(URL location, ResourceBundle resources) {
         db = new DatabaseConnection();
-        coid.setCellValueFactory(new PropertyValueFactory<Course, String>("CourseId"));
-        courseName.setCellValueFactory(new PropertyValueFactory<Course, String>("CourseName"));
-        co_start.setCellValueFactory(new PropertyValueFactory<Course, DateCell>("CourseStart"));
-        co_end.setCellValueFactory(new PropertyValueFactory<Course, DateCell>("CourseEnd"));
-
+        coid.setCellValueFactory(new PropertyValueFactory<>("CourseId"));
+        coid.setCellFactory(TextFieldTableCell.forTableColumn());
+        courseName.setCellValueFactory(new PropertyValueFactory<>("CourseName"));
+        courseName.setCellFactory(TextFieldTableCell.forTableColumn());
+        co_start.setCellValueFactory(new PropertyValueFactory<>("CourseStart"));
+        co_end.setCellValueFactory(new PropertyValueFactory<>("CourseEnd"));
+        cla_Room_List.setCellValueFactory(new PropertyValueFactory<>("cla_Room"));
+        cla_Room_List.setCellFactory(ComboBoxTableCell.forTableColumn(allClasses()));
         courses.getItems().setAll(allCourses());
 
-        claID.setCellValueFactory(new PropertyValueFactory<Clazz, String>("claId"));
-        cla_Name.setCellValueFactory(new PropertyValueFactory<Clazz, String>("cla_Name"));
-        cla_Room.setCellValueFactory(new PropertyValueFactory<Clazz, String>("cla_Room"));
+        claID.setCellValueFactory(new PropertyValueFactory<>("claId"));
+        cla_Name.setCellValueFactory(new PropertyValueFactory<>("cla_Name"));
+        cla_Room.setCellValueFactory(new PropertyValueFactory<>("cla_Room"));
 
         classes.getItems().setAll(allClasses());
 
@@ -65,8 +74,8 @@ public class MainViewController implements Initializable {
         closeButton.setOnAction(actionEvent -> Platform.exit());
     }
 
-    private List<Course> allCourses() {
-        List<Course> data = new ArrayList();
+    private ObservableList<Course> allCourses() {
+        ObservableList<Course> data = FXCollections.observableArrayList();
         try {
             Connection con = db.getMySQLConnection();
             Statement statement = con.createStatement();
@@ -87,8 +96,8 @@ public class MainViewController implements Initializable {
         return data;
     }
 
-    private List<Clazz> allClasses() {
-        List<Clazz> data = new ArrayList();
+    private ObservableList<Clazz> allClasses() {
+        ObservableList<Clazz> data = FXCollections.observableArrayList();
         try {
             Connection con = db.getMySQLConnection();
             Statement statement = con.createStatement();
@@ -107,5 +116,17 @@ public class MainViewController implements Initializable {
         }
         return data;
     }
+
+//    private ObservableList<Clazz> getClassByCourses(){
+//        try {
+//            Connection con = db.getMySQLConnection();
+//            Statement statement = con.createStatement();
+//            String sql = "Select * From Classes";
+//            ResultSet rs = statement.executeQuery(sql);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return data;
+//    }
 
 }

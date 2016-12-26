@@ -1,84 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<Pane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="view.MainViewController" style="-fx-background-color: #e6e6e6">
-    <children>
-        <ToolBar translateX="765.0" style="-fx-background-color: #e6e6e6">
-            <items>
-                <Button styleClass="red" maxHeight="20.0" translateY="-6.0"
-                        fx:id="closeButton" mnemonicParsing="_F4"/>
-            </items>
-        </ToolBar>
-        <Label alignment="CENTER" contentDisplay="CENTER" translateY="6.0"
-               translateX="275.0" text="STUDENT MANAGEMENT SYSTEM" textAlignment="CENTER"
-               textFill="#00986e" style="-fx-font-weight: Bold;">
-            <font>
-                <Font size="15.0"/>
-            </font>
-        </Label>
+<Pane style="-fx-background-color: #e6e6e6" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="view.MainViewController">
+    <ToolBar style="-fx-background-color: #e6e6e6" translateX="765.0">
+        <Button fx:id="closeButton" maxHeight="20.0" mnemonicParsing="_F4" styleClass="red" translateY="-6.0"/>
+    </ToolBar>
+    <Label alignment="CENTER" contentDisplay="CENTER" style="-fx-font-weight: Bold;"
+           text="STUDENT MANAGEMENT SYSTEM" textAlignment="CENTER" textFill="#00986e" translateX="275.0"
+           translateY="6.0">
+        <font>
+            <Font size="15.0"/>
+        </font>
+    </Label>
 
-        <TabPane minHeight="570.0" minWidth="800.0" tabClosingPolicy="UNAVAILABLE"
-                 translateY="30.0">
-            <tabs>
-                <Tab text="Courses">
-                    <content>
-                        <BorderPane>
-                            <top>
-                                <Label alignment="CENTER" contentDisplay="CENTER"
-                                       prefHeight="46.0" prefWidth="700.0" text="LIST OF COURSES"
-                                       textAlignment="CENTER" textFill="#6aa6ff" BorderPane.alignment="CENTER">
-                                    <font>
-                                        <Font size="41.0"/>
-                                    </font>
-                                </Label>
-                            </top>
-                            <center>
-                                <TableView BorderPane.alignment="CENTER" fx:id="courses" editable="true">
-                                    <columns>
-                                        <TableColumn prefWidth="115.0" fx:id="coid" text="Course ID"/>
-                                        <TableColumn prefWidth="115.0" fx:id="courseName" text="Course Name"/>
-                                        <TableColumn prefWidth="115.0" fx:id="co_start" text="Course Start"/>
-                                        <TableColumn prefWidth="115.0" fx:id="co_end" text="Course End"/>
-                                    </columns>
-                                </TableView>
-                            </center>
-                        </BorderPane>
-                    </content>
-                </Tab>
-                <Tab text="Class">
-                    <content>
-                        <BorderPane>
-                            <top>
-                                <Label alignment="CENTER" contentDisplay="CENTER"
-                                       prefHeight="46.0" prefWidth="700.0" text="LIST OF CLASSES"
-                                       textAlignment="CENTER" textFill="#6aa6ff" BorderPane.alignment="CENTER">
-                                    <font>
-                                        <Font size="41.0"/>
-                                    </font>
-                                </Label>
-                            </top>
-                            <center>
-                                <TableView BorderPane.alignment="CENTER" fx:id="classes" editable="true">
-                                    <columns>
-                                        <TableColumn prefWidth="115.0" fx:id="claID" text="Class ID"/>
-                                        <TableColumn prefWidth="115.0" fx:id="cla_Name" text="Class Name"/>
-                                        <TableColumn prefWidth="115.0" fx:id="cla_Room" text="Class Room"/>
-                                    </columns>
-                                </TableView>
-                            </center>
-                        </BorderPane>
-                    </content>
-                </Tab>
-                <Tab text="Student">
-                    <content>
-                        <BorderPane/>
-                    </content>
-                </Tab>
-            </tabs>
-        </TabPane>
-    </children>
+    <TabPane minHeight="570.0" minWidth="800.0" tabClosingPolicy="UNAVAILABLE" translateY="30.0">
+        <Tab text="Courses">
+            <BorderPane>
+                <top>
+                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="46.0" prefWidth="700.0"
+                           text="LIST OF COURSES" textAlignment="CENTER" textFill="#6aa6ff"
+                           BorderPane.alignment="CENTER">
+                        <font>
+                            <Font size="41.0"/>
+                        </font>
+                    </Label>
+                </top>
+                <center>
+                    <TableView fx:id="courses" editable="true" BorderPane.alignment="CENTER">
+                        <columns>
+                            <TableColumn fx:id="coid" prefWidth="115.0" text="Course ID"/>
+                            <TableColumn fx:id="courseName" prefWidth="115.0" text="Course Name"/>
+                            <TableColumn fx:id="co_start" prefWidth="115.0" text="Course Start"/>
+                            <TableColumn fx:id="co_end" prefWidth="115.0" text="Course End"/>
+                            <TableColumn fx:id="cla_Room_List" prefWidth="115.0" text="Class Room"/>
+                        </columns>
+                    </TableView>
+                </center>
+            </BorderPane>
+        </Tab>
+        <Tab text="Class">
+            <BorderPane>
+                <top>
+                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="46.0" prefWidth="700.0"
+                           text="LIST OF CLASSES" textAlignment="CENTER" textFill="#6aa6ff"
+                           BorderPane.alignment="CENTER">
+                        <font>
+                            <Font size="41.0"/>
+                        </font>
+                    </Label>
+                </top>
+                <center>
+                    <TableView fx:id="classes" editable="true" BorderPane.alignment="CENTER">
+                        <columns>
+                            <TableColumn fx:id="claID" prefWidth="115.0" text="Class ID"/>
+                            <TableColumn fx:id="cla_Name" prefWidth="115.0" text="Class Name"/>
+                            <TableColumn fx:id="cla_Room" prefWidth="115.0" text="Class Room"/>
+                        </columns>
+                    </TableView>
+                </center>
+            </BorderPane>
+        </Tab>
+        <Tab text="Student">
+            <BorderPane/>
+        </Tab>
+    </TabPane>
 </Pane>
