@@ -6,6 +6,7 @@ public class Course {
     private int Course_id;
     private String CourseId;
     private String CourseName;
+    private String ClassName;
     private Date CourseStart;
     private Date CourseEnd;
 
@@ -50,5 +51,13 @@ public class Course {
 
     public void setCourseEnd(Date courseEnd) {
         CourseEnd = courseEnd;
+    }
+
+    public String getClassName() {
+        return ClassName;
+    }
+
+    public void setClassName(String className) {
+        ClassName = className;
     }
 }

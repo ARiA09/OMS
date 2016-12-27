@@ -3,9 +3,8 @@ package view;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.application.Platform;
@@ -26,6 +25,7 @@ import model.Course;
 
 public class MainViewController implements Initializable {
     private DatabaseConnection db;
+    private Connection conn;
 
     @FXML
     private Button closeButton;
@@ -40,7 +40,7 @@ public class MainViewController implements Initializable {
     @FXML
     private TableColumn<Course, DateCell> co_end;
     @FXML
-    private TableColumn<Clazz, Clazz> cla_Room_List;
+    private TableColumn<Course, String> cla_room;
 
     @FXML
     private TableView<Clazz> classes;
@@ -54,14 +54,25 @@ public class MainViewController implements Initializable {
 
     public void initialize(URL location, ResourceBundle resources) {
         db = new DatabaseConnection();
+
+        try {
+            conn = db.getMySQLConnection();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         coid.setCellValueFactory(new PropertyValueFactory<>("CourseId"));
         coid.setCellFactory(TextFieldTableCell.forTableColumn());
         courseName.setCellValueFactory(new PropertyValueFactory<>("CourseName"));
         courseName.setCellFactory(TextFieldTableCell.forTableColumn());
+        courseName.setOnEditCommit((TableColumn.CellEditEvent<Course, String> cn) -> {
+
+                }
+        );
         co_start.setCellValueFactory(new PropertyValueFactory<>("CourseStart"));
         co_end.setCellValueFactory(new PropertyValueFactory<>("CourseEnd"));
-        cla_Room_List.setCellValueFactory(new PropertyValueFactory<>("cla_Room"));
-        cla_Room_List.setCellFactory(ComboBoxTableCell.forTableColumn(allClasses()));
+        cla_room.setCellValueFactory(new PropertyValueFactory<>("ClassName"));
+        cla_room.setCellFactory(ComboBoxTableCell.forTableColumn(allClasses().toString()));
         courses.getItems().setAll(allCourses());
 
         claID.setCellValueFactory(new PropertyValueFactory<>("claId"));
@@ -77,9 +88,18 @@ public class MainViewController implements Initializable {
     private ObservableList<Course> allCourses() {
         ObservableList<Course> data = FXCollections.observableArrayList();
         try {
-            Connection con = db.getMySQLConnection();
-            Statement statement = con.createStatement();
-            String sql = "Select * From Courses";
+            Statement statement = conn.createStatement();
+            String sql = "SELECT\n" +
+                    "courses.co_name,\n" +
+                    "classes.cla_name,\n" +
+                    "courses.co_id,\n" +
+                    "courses.cla_id,\n" +
+                    "courses.coid,\n" +
+                    "courses.co_start_time,\n" +
+                    "courses.co_end_time\n" +
+                    "FROM\n" +
+                    "classes\n" +
+                    "RIGHT JOIN courses ON courses.cla_id = classes.cla_id";
             ResultSet rs = statement.executeQuery(sql);
             while (rs.next()) {
                 Course co = new Course();
@@ -88,9 +108,10 @@ public class MainViewController implements Initializable {
                 co.setCourseName(rs.getString("co_name"));
                 co.setCourseStart(rs.getDate("co_start_time"));
                 co.setCourseEnd(rs.getDate("co_end_time"));
+                co.setClassName(rs.getString("cla_name"));
                 data.add(co);
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return data;
@@ -99,8 +120,7 @@ public class MainViewController implements Initializable {
     private ObservableList<Clazz> allClasses() {
         ObservableList<Clazz> data = FXCollections.observableArrayList();
         try {
-            Connection con = db.getMySQLConnection();
-            Statement statement = con.createStatement();
+            Statement statement = conn.createStatement();
             String sql = "Select * From Classes";
             ResultSet rs = statement.executeQuery(sql);
             while (rs.next()) {
@@ -111,22 +131,9 @@ public class MainViewController implements Initializable {
                 cla.setCla_Room(rs.getString("cla_room"));
                 data.add(cla);
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return data;
     }
-
-//    private ObservableList<Clazz> getClassByCourses(){
-//        try {
-//            Connection con = db.getMySQLConnection();
-//            Statement statement = con.createStatement();
-//            String sql = "Select * From Classes";
-//            ResultSet rs = statement.executeQuery(sql);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return data;
-//    }
-
 }
