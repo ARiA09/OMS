@@ -10,27 +10,24 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2016-12-27 00:36:50
+Date: 2016-12-28 00:42:25
 */
 
-SET FOREIGN_KEY_CHECKS = 0;
+SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
 -- Table structure for answers
 -- ----------------------------
 DROP TABLE IF EXISTS `answers`;
 CREATE TABLE `answers` (
-  `ans_id`     INT(255)     NOT NULL AUTO_INCREMENT,
-  `ques_id`    INT(255)     NOT NULL,
-  `ans_detail` VARCHAR(255) NOT NULL,
-  `ans_result` INT(1)       NOT NULL,
+  `ans_id` int(255) NOT NULL AUTO_INCREMENT,
+  `ques_id` int(255) NOT NULL,
+  `ans_detail` varchar(255) NOT NULL,
+  `ans_result` int(1) NOT NULL,
   PRIMARY KEY (`ans_id`),
   KEY `fk_Answers_Questions_1` (`ques_id`),
   CONSTRAINT `fk_Answers_Questions_1` FOREIGN KEY (`ques_id`) REFERENCES `questions` (`ques_id`)
-)
-  ENGINE = InnoDB
-  AUTO_INCREMENT = 201
-  DEFAULT CHARSET = utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=201 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of answers
@@ -241,15 +238,12 @@ INSERT INTO `answers` VALUES ('200', '50', '999KB', '0');
 -- ----------------------------
 DROP TABLE IF EXISTS `classes`;
 CREATE TABLE `classes` (
-  `cla_id`   INT(255) NOT NULL AUTO_INCREMENT,
-  `claid`    VARCHAR(255)      DEFAULT NULL,
-  `cla_name` VARCHAR(255)      DEFAULT NULL,
-  `cla_room` VARCHAR(255)      DEFAULT NULL,
+  `cla_id` int(255) NOT NULL AUTO_INCREMENT,
+  `claid` varchar(255) DEFAULT NULL,
+  `cla_name` varchar(255) DEFAULT NULL,
+  `cla_room` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`cla_id`)
-)
-  ENGINE = InnoDB
-  AUTO_INCREMENT = 6
-  DEFAULT CHARSET = utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of classes
@@ -265,19 +259,16 @@ INSERT INTO `classes` VALUES ('5', 'C5', 'Class E', '305');
 -- ----------------------------
 DROP TABLE IF EXISTS `courses`;
 CREATE TABLE `courses` (
-  `co_id`         INT(255)     NOT NULL AUTO_INCREMENT,
-  `cla_id`        INT(255)     NOT NULL,
-  `coid`          VARCHAR(255) NOT NULL,
-  `co_name`       VARCHAR(255) NOT NULL,
-  `co_start_time` DATE                  DEFAULT NULL,
-  `co_end_time`   DATE                  DEFAULT NULL,
+  `co_id` int(255) NOT NULL AUTO_INCREMENT,
+  `cla_id` int(255) DEFAULT NULL,
+  `coid` varchar(255) NOT NULL,
+  `co_name` varchar(255) NOT NULL,
+  `co_start_time` date DEFAULT NULL,
+  `co_end_time` date DEFAULT NULL,
   PRIMARY KEY (`co_id`),
   KEY `fk_Courses_Classes` (`cla_id`),
   CONSTRAINT `fk_Courses_Classes` FOREIGN KEY (`cla_id`) REFERENCES `classes` (`cla_id`)
-)
-  ENGINE = InnoDB
-  AUTO_INCREMENT = 11
-  DEFAULT CHARSET = utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of courses
@@ -291,24 +282,21 @@ INSERT INTO `courses` VALUES ('6', '3', 'CO 6', 'IT 6', '2016-12-01', '2016-12-3
 INSERT INTO `courses` VALUES ('7', '2', 'CO 7', 'IT 7', '2016-12-01', '2016-12-30');
 INSERT INTO `courses` VALUES ('8', '4', 'CO 8', 'IT 8', '2016-12-01', '2016-12-30');
 INSERT INTO `courses` VALUES ('9', '5', 'CO 9', 'IT 9', '2016-12-01', '2016-12-30');
-INSERT INTO `courses` VALUES ('10', '4', 'CO 10', 'IT 10', '2016-12-01', '2016-12-30');
+INSERT INTO `courses` VALUES ('10', null, 'CO 10', 'IT 10', '2016-12-01', '2016-12-30');
 
 -- ----------------------------
 -- Table structure for questions
 -- ----------------------------
 DROP TABLE IF EXISTS `questions`;
 CREATE TABLE `questions` (
-  `ques_id`     INT(255)     NOT NULL AUTO_INCREMENT,
-  `co_id`       INT(255)     NOT NULL,
-  `quesid`      VARCHAR(255) NOT NULL,
-  `ques_detail` VARCHAR(255) NOT NULL,
+  `ques_id` int(255) NOT NULL AUTO_INCREMENT,
+  `co_id` int(255) NOT NULL,
+  `quesid` varchar(255) NOT NULL,
+  `ques_detail` varchar(255) NOT NULL,
   PRIMARY KEY (`ques_id`),
   KEY `fk_Questions_Courses_1` (`co_id`),
   CONSTRAINT `fk_Questions_Courses_1` FOREIGN KEY (`co_id`) REFERENCES `courses` (`co_id`)
-)
-  ENGINE = InnoDB
-  AUTO_INCREMENT = 51
-  DEFAULT CHARSET = utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of questions
@@ -316,8 +304,7 @@ CREATE TABLE `questions` (
 INSERT INTO `questions` VALUES ('1', '1', 'Q1', 'Who programmed the first computer game \'Spacewar!\' in 1962');
 INSERT INTO `questions` VALUES ('2', '2', 'Q2', 'Who is known as the father of supercomputing');
 INSERT INTO `questions` VALUES ('3', '3', 'Q3', 'Who created the C programming Language');
-INSERT INTO `questions`
-VALUES ('4', '4', 'Q4', 'When NASSCOM (National Association of Software and Services Companies) was eastablished');
+INSERT INTO `questions` VALUES ('4', '4', 'Q4', 'When NASSCOM (National Association of Software and Services Companies) was eastablished');
 INSERT INTO `questions` VALUES ('5', '5', 'Q5', 'Who is known as the father of internet');
 INSERT INTO `questions` VALUES ('6', '1', 'Q6', 'Which one is the first high level programming language');
 INSERT INTO `questions` VALUES ('7', '2', 'Q7', 'Which one is the first word processor application');
@@ -332,11 +319,9 @@ INSERT INTO `questions` VALUES ('15', '5', 'Q15', 'Linus Torvalds develop which 
 INSERT INTO `questions` VALUES ('16', '1', 'Q16', 'Which one is the first serch engine in internet');
 INSERT INTO `questions` VALUES ('17', '2', 'Q17', 'Number of bit used by the IPv6 address');
 INSERT INTO `questions` VALUES ('18', '3', 'Q18', 'Which one is the first web browser invented in 1990');
-INSERT INTO `questions`
-VALUES ('19', '4', 'Q19', 'Which of the following programming language is used to create programs like applets?');
+INSERT INTO `questions` VALUES ('19', '4', 'Q19', 'Which of the following programming language is used to create programs like applets?');
 INSERT INTO `questions` VALUES ('20', '5', 'Q20', 'First computer virus is known as');
-INSERT INTO `questions`
-VALUES ('21', '1', 'Q21', 'Which one programming language is exclusively used for artificial intelligence');
+INSERT INTO `questions` VALUES ('21', '1', 'Q21', 'Which one programming language is exclusively used for artificial intelligence');
 INSERT INTO `questions` VALUES ('22', '2', 'Q22', 'Firewall in computer is used for');
 INSERT INTO `questions` VALUES ('23', '3', 'Q23', 'A dual layer Blue-ray Disc can store data upto');
 INSERT INTO `questions` VALUES ('24', '4', 'Q24', 'Which of the following is not an operating system');
@@ -353,18 +338,14 @@ INSERT INTO `questions` VALUES ('34', '4', 'Q34', 'In computer world, Trojan ref
 INSERT INTO `questions` VALUES ('35', '5', 'Q35', 'Which of the following is a programming language');
 INSERT INTO `questions` VALUES ('36', '1', 'Q36', 'Which protocol is used to received e-mail');
 INSERT INTO `questions` VALUES ('37', '2', 'Q37', 'Which protocol is used to send e-mail');
-INSERT INTO `questions`
-VALUES ('38', '3', 'Q38', 'Which computer program converts assembly language to machine language');
-INSERT INTO `questions`
-VALUES ('39', '4', 'Q39', 'In which year \'@\' sign was first chosen for its use in e-mail address');
+INSERT INTO `questions` VALUES ('38', '3', 'Q38', 'Which computer program converts assembly language to machine language');
+INSERT INTO `questions` VALUES ('39', '4', 'Q39', 'In which year \'@\' sign was first chosen for its use in e-mail address');
 INSERT INTO `questions` VALUES ('40', '5', 'Q40', 'Which one is the latest one from PARAM SuperSries computers');
 INSERT INTO `questions` VALUES ('41', '1', 'Q41', 'Who is know as the father of Indian Supercomputing');
 INSERT INTO `questions` VALUES ('42', '2', 'Q42', 'A folder in windows computer can\'t be made with the name');
-INSERT INTO `questions`
-VALUES ('43', '3', 'Q43', 'A computer use which type of number system to calculate and to store data');
+INSERT INTO `questions` VALUES ('43', '3', 'Q43', 'A computer use which type of number system to calculate and to store data');
 INSERT INTO `questions` VALUES ('44', '4', 'Q44', 'What is the extension type of the excel 2007 files');
-INSERT INTO `questions`
-VALUES ('45', '5', 'Q45', 'The basic units of a excel spreedsheet where we enter data is called');
+INSERT INTO `questions` VALUES ('45', '5', 'Q45', 'The basic units of a excel spreedsheet where we enter data is called');
 INSERT INTO `questions` VALUES ('46', '1', 'Q46', 'The maximum number of rows supported by Excel 2003 spreadsheet is');
 INSERT INTO `questions` VALUES ('47', '2', 'Q47', 'The maximum number of rows supported by Excel 2007 spreadsheet is');
 INSERT INTO `questions` VALUES ('48', '3', 'Q48', 'Which one is a \'text editor\' for Microsoft Windows');
@@ -376,16 +357,14 @@ INSERT INTO `questions` VALUES ('50', '5', 'Q50', 'What is the maximum size of a
 -- ----------------------------
 DROP TABLE IF EXISTS `students`;
 CREATE TABLE `students` (
-  `stu_id`       INT(255)     NOT NULL AUTO_INCREMENT,
-  `stuid`        VARCHAR(255)          DEFAULT NULL,
-  `stu_name`     VARCHAR(255)          DEFAULT NULL,
-  `stu_mark`     DOUBLE                DEFAULT '0',
-  `stu_username` VARCHAR(255) NOT NULL,
-  `stu_password` VARCHAR(255) NOT NULL,
+  `stu_id` int(255) NOT NULL AUTO_INCREMENT,
+  `stuid` varchar(255) DEFAULT NULL,
+  `stu_name` varchar(255) DEFAULT NULL,
+  `stu_mark` double DEFAULT '0',
+  `stu_username` varchar(255) NOT NULL,
+  `stu_password` varchar(255) NOT NULL,
   PRIMARY KEY (`stu_id`)
-)
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of students
@@ -396,19 +375,17 @@ CREATE TABLE `students` (
 -- ----------------------------
 DROP TABLE IF EXISTS `stu_co`;
 CREATE TABLE `stu_co` (
-  `stu_co_id` INT(255) NOT NULL AUTO_INCREMENT,
-  `stu_id`    INT(255) NOT NULL,
-  `co_id`     INT(255) NOT NULL,
+  `stu_co_id` int(255) NOT NULL AUTO_INCREMENT,
+  `stu_id` int(255) NOT NULL,
+  `co_id` int(255) NOT NULL,
   PRIMARY KEY (`stu_co_id`),
   KEY `fk_stu_co_Students_1` (`stu_id`),
   KEY `fk_stu_co_Courses_1` (`co_id`),
   CONSTRAINT `fk_stu_co_Courses_1` FOREIGN KEY (`co_id`) REFERENCES `courses` (`co_id`),
   CONSTRAINT `fk_stu_co_Students_1` FOREIGN KEY (`stu_id`) REFERENCES `students` (`stu_id`)
-)
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of stu_co
 -- ----------------------------
-SET FOREIGN_KEY_CHECKS = 1;
+SET FOREIGN_KEY_CHECKS=1;
