@@ -43,7 +43,7 @@
                             <TableColumn fx:id="courseName" prefWidth="115.0" text="Course Name"/>
                             <TableColumn fx:id="co_start" prefWidth="115.0" text="Course Start"/>
                             <TableColumn fx:id="co_end" prefWidth="115.0" text="Course End"/>
-                            <TableColumn fx:id="cla_room" prefWidth="115.0" text="Class Room"/>
+                            <TableColumn fx:id="co_room" prefWidth="115.0" text="Class Room"/>
                         </columns>
                     </TableView>
                 </center>

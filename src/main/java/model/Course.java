@@ -9,6 +9,7 @@ public class Course {
     private String ClassName;
     private Date CourseStart;
     private Date CourseEnd;
+    private Clazz Clazz;
 
     public Course() {
     }
@@ -59,5 +60,13 @@ public class Course {
 
     public void setClassName(String className) {
         ClassName = className;
+    }
+
+    public model.Clazz getClazz() {
+        return Clazz;
+    }
+
+    public void setClazz(Clazz clazz) {
+        Clazz = clazz;
     }
 }
