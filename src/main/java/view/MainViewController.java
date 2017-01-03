@@ -68,8 +68,6 @@ public class MainViewController implements Initializable {
         coid.setOnEditCommit(event -> {
             int co_id = event.getTableView().getItems().get(event.getTablePosition().getRow()).getCourse_id();
             String co_update = event.getNewValue();
-            System.out.println(co_id);
-            System.out.println("Test");
             UpdateCourse(co_id, String.valueOf(co_update), "Course ID Update");
             allCourses().clear();
             courses.getItems().setAll(allCourses());
@@ -185,11 +183,11 @@ public class MainViewController implements Initializable {
                     statement.executeUpdate(sql);
                     break;
                 case "Course Name Update":
-                    sql = String.format("UPDATE courses SET co_name = %s Where courses.co_id = %d", updateField, course);
+                    sql = String.format("UPDATE courses SET co_name = '%s' Where courses.co_id = %d", updateField, course);
                     statement.executeUpdate(sql);
                     break;
                 case "Course ID Update":
-                    sql = String.format("UPDATE courses SET coid = %s Where courses.co_id = %d", updateField, course);
+                    sql = String.format("UPDATE courses SET coid = '%s' Where courses.co_id = %d", updateField, course);
                     statement.executeUpdate(sql);
                     break;
             }
