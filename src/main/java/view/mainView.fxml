@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 
 <Pane style="-fx-background-color: #e6e6e6" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="view.MainViewController">
+      fx:controller="controller.MainViewController">
     <ToolBar style="-fx-background-color: #e6e6e6" translateX="765.0">
         <Button fx:id="closeButton" maxHeight="20.0" mnemonicParsing="_F4" styleClass="red" translateY="-6.0"/>
     </ToolBar>

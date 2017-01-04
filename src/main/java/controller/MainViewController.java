@@ -1,4 +1,4 @@
-package view;
+package controller;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -7,25 +7,21 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
 
-import com.sun.org.apache.bcel.internal.generic.SWITCH;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.util.Callback;
 import jdbc.DatabaseConnection;
 import model.Clazz;
 import model.Course;
 
-public class MainViewController implements Initializable {
+public class MainViewController implements Initializable, ControlledScreen {
+    ScreensController myController;
     private DatabaseConnection db;
     private Connection conn;
 
@@ -194,5 +190,10 @@ public class MainViewController implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void setScreenParent(ScreensController screenPage) {
+        myController = screenPage;
     }
 }
