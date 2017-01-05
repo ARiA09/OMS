@@ -2,10 +2,8 @@ package main;
 
 import controller.ScreensController;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -21,6 +19,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        primaryStage.initStyle(StageStyle.UNDECORATED);
+        primaryStage.setTitle("Student Management System");
+
         ScreensController mainContainer = new ScreensController();
 
         mainContainer.loadScreen(Main.login, Main.loginS1);
@@ -33,7 +34,8 @@ public class Main extends Application {
 
         Group root = new Group();
         root.getChildren().addAll(mainContainer);
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root, 800, 600);
+        //  scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
 
