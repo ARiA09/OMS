@@ -1,24 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.ToolBar?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-
-<Pane style="-fx-background-color: #e6e6e6" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1"
+<Pane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #e6e6e6"
+      xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="controller.MainViewController">
     <ToolBar style="-fx-background-color: #e6e6e6" translateX="765.0">
         <Button fx:id="closeButton" maxHeight="20.0" mnemonicParsing="_F4" styleClass="red" translateY="-6.0"/>
     </ToolBar>
-    <Label alignment="CENTER" contentDisplay="CENTER" style="-fx-font-weight: Bold;"
-           text="STUDENT MANAGEMENT SYSTEM" textAlignment="CENTER" textFill="#00986e" translateX="275.0"
-           translateY="6.0">
+    <Label alignment="CENTER" contentDisplay="CENTER" style="-fx-font-weight: Bold;" text="STUDENT MANAGEMENT SYSTEM"
+           textAlignment="CENTER" textFill="#00986e" translateX="275.0" translateY="6.0">
         <font>
             <Font size="15.0"/>
         </font>
@@ -37,7 +29,7 @@
                     </Label>
                 </top>
                 <center>
-                    <TableView fx:id="courses" editable="true" BorderPane.alignment="CENTER">
+                    <TableView fx:id="courses" editable="true" maxHeight="500.0" BorderPane.alignment="CENTER">
                         <columns>
                             <TableColumn fx:id="coid" prefWidth="115.0" text="Course ID"/>
                             <TableColumn fx:id="courseName" prefWidth="115.0" text="Course Name"/>
@@ -47,6 +39,21 @@
                         </columns>
                     </TableView>
                 </center>
+                <bottom>
+                    <GridPane>
+                        <columnConstraints>
+                            <ColumnConstraints prefWidth="400.0"/>
+                            <ColumnConstraints prefWidth="400.0"/>
+                        </columnConstraints>
+                        <rowConstraints>
+                            <RowConstraints prefHeight="30.0" vgrow="SOMETIMES"/>
+                        </rowConstraints>
+                        <Button fx:id="refreshView" mnemonicParsing="false" text="Refresh" GridPane.valignment="CENTER"
+                                GridPane.halignment="RIGHT"/>
+                        <Button fx:id="newCourse" mnemonicParsing="false" GridPane.columnIndex="1" text="Add New Course"
+                                GridPane.valignment="CENTER" GridPane.halignment="LEFT"/>
+                    </GridPane>
+                </bottom>
             </BorderPane>
         </Tab>
         <Tab text="Class">

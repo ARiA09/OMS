@@ -2,70 +2,81 @@ package main;
 
 import controller.ScreensController;
 import javafx.application.Application;
+import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import jdbc.DatabaseConnection;
+
+import java.sql.Connection;
 
 public class Main extends Application {
 
-    public static String login = "Login";
-    public static String loginS1 = "Login.fxml";
-    public static String screen2ID = "MainView";
-    public static String screen2File = "MainView.fxml";
-    public static String screen3ID = "Add";
-    public static String screen3File = "AddingCourse.fxml";
-
+    public static String loginID = "Login";
+    public static String loginFile = "/view/Login.fxml";
+    public static String mainViewID = "MainView";
+    public static String mainViewFile = "/view/MainView.fxml";
+    public static String addCourseID = "AddCourse";
+    public static String addCourseFile = "/view/AddingCourse.fxml";
+    public static DatabaseConnection db;
+    public static Connection conn;
 
     @Override
     public void start(Stage primaryStage) {
+        final PosWindow dragWin = new PosWindow();
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setTitle("Student Management System");
 
         ScreensController mainContainer = new ScreensController();
 
-        mainContainer.loadScreen(Main.login, Main.loginS1);
-        mainContainer.loadScreen(Main.screen2ID, Main.screen2File);
-        mainContainer.loadScreen(Main.screen3ID, Main.screen3File);
+        mainContainer.loadScreen(Main.loginID, Main.loginFile);
+        mainContainer.loadScreen(Main.mainViewID, Main.mainViewFile);
+        mainContainer.loadScreen(Main.addCourseID, Main.addCourseFile);
 
-
-        mainContainer.setScreen(Main.login);
+        mainContainer.setScreen(Main.loginID);
 
 
         Group root = new Group();
         root.getChildren().addAll(mainContainer);
-        Scene scene = new Scene(root, 800, 600);
-        //  scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        Scene scene = new Scene(root);
 
-//        try {
-//            primaryStage.initStyle(StageStyle.UNDECORATED);
-//            primaryStage.setTitle("Student Management System");
-//
-//            Pane root = FXMLLoader.load(getClass().getResource("MainView.fxml"));
-//            Scene scene = new Scene(root, 800, 600);
-//            scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-//
-//
-//            Pane coursePanel = FXMLLoader.load(getClass().getResource("AddingCourse.fxml"));
-//            Scene courseScene = new Scene(coursePanel, 600, 400);
-//            courseScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-//
-//            Pane loginPanel = FXMLLoader.load(getClass().getResource("Login.fxml"));
-//            Scene loginScene = new Scene(loginPanel, 600, 400);
-//            loginScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-//
-//            primaryStage.setResizable(false);
-//            //primaryStage.setScene(scene);
-//            primaryStage.setScene(loginScene);
-//            primaryStage.show();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        root.setOnMousePressed(mouseEvent -> {
+            dragWin.x = primaryStage.getX() - mouseEvent.getScreenX();
+            dragWin.y = primaryStage.getY() - mouseEvent.getScreenY();
+        });
+
+        root.setOnMouseDragged(mouseEvent -> {
+            primaryStage.setX(mouseEvent.getScreenX() + dragWin.x);
+            primaryStage.setY(mouseEvent.getScreenY() + dragWin.y);
+        });
+
+        scene.getStylesheets().add(getClass().getResource("/view/style.css").toExternalForm());
+        primaryStage.setScene(scene);
+
+        primaryStage.show();
     }
 
     public static void main(String[] args) {
+        db = new DatabaseConnection();
+
+        try {
+            conn = db.getMySQLConnection();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         launch(args);
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            db.close();
+            System.out.println("Good Bye");
+        }));
+    }
+
+    private class PosWindow {
+        double x, y;
     }
 }
+
+

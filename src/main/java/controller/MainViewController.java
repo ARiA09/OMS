@@ -1,29 +1,31 @@
 package controller;
 
-import java.net.URL;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ResourceBundle;
-
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.DateCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import jdbc.DatabaseConnection;
+import main.Main;
 import model.Clazz;
 import model.Course;
 
+import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ResourceBundle;
+
+import static main.Main.conn;
+
 public class MainViewController implements Initializable, ControlledScreen {
     ScreensController myController;
-    private DatabaseConnection db;
-    private Connection conn;
 
     @FXML
     private Button closeButton;
@@ -49,15 +51,12 @@ public class MainViewController implements Initializable, ControlledScreen {
     @FXML
     private TableColumn<Clazz, String> cla_Room;
 
+    @FXML
+    private Button newCourse;
+    @FXML
+    private Button refreshView;
 
     public void initialize(URL location, ResourceBundle resources) {
-        db = new DatabaseConnection();
-
-        try {
-            conn = db.getMySQLConnection();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         coid.setCellValueFactory(new PropertyValueFactory<>("CourseId"));
         coid.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -79,7 +78,6 @@ public class MainViewController implements Initializable, ControlledScreen {
             UpdateCourse(co_id, String.valueOf(name_update), "Course Name Update");
             allCourses().clear();
             courses.getItems().setAll(allCourses());
-            courses.refresh();
         });
 
         co_start.setCellValueFactory(new PropertyValueFactory<>("CourseStart"));
@@ -93,7 +91,6 @@ public class MainViewController implements Initializable, ControlledScreen {
             UpdateCourse(co_id, String.valueOf(cla_id), "Class Update");
             allCourses().clear();
             courses.getItems().setAll(allCourses());
-            courses.refresh();
         });
         courses.getItems().setAll(allCourses());
 
@@ -105,10 +102,12 @@ public class MainViewController implements Initializable, ControlledScreen {
         classes.getItems().setAll(allClasses());
 
 
-        closeButton.setOnAction(actionEvent -> {
-            db.close();
-            Platform.exit();
+        refreshView.setOnAction(actionEvent -> {
+            allCourses().clear();
+            courses.getItems().setAll(allCourses());
         });
+        newCourse.setOnAction(actionEvent -> myController.setScreen(Main.addCourseID));
+        closeButton.setOnAction(actionEvent -> Platform.exit());
     }
 
     private ObservableList<Course> allCourses() {
@@ -149,7 +148,7 @@ public class MainViewController implements Initializable, ControlledScreen {
         return data;
     }
 
-    private ObservableList<Clazz> allClasses() {
+    public static ObservableList<Clazz> allClasses() {
         ObservableList<Clazz> data = FXCollections.observableArrayList();
         try {
             Statement statement = conn.createStatement();
