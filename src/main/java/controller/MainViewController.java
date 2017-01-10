@@ -15,6 +15,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import main.Main;
 import model.Clazz;
 import model.Course;
+import model.Student;
 
 import java.net.URL;
 import java.sql.ResultSet;
@@ -57,7 +58,9 @@ public class MainViewController implements Initializable, ControlledScreen {
     private Button refreshView;
 
     public void initialize(URL location, ResourceBundle resources) {
-
+        // Control Course Screen
+        // Update data
+        // Create data
         coid.setCellValueFactory(new PropertyValueFactory<>("CourseId"));
         coid.setCellFactory(TextFieldTableCell.forTableColumn());
         coid.setOnEditCommit(event -> {
@@ -71,7 +74,6 @@ public class MainViewController implements Initializable, ControlledScreen {
 
         courseName.setCellValueFactory(new PropertyValueFactory<>("CourseName"));
         courseName.setCellFactory(TextFieldTableCell.forTableColumn());
-
         courseName.setOnEditCommit(event -> {
             int co_id = event.getTableView().getItems().get(event.getTablePosition().getRow()).getCourse_id();
             String name_update = event.getNewValue();
@@ -84,7 +86,6 @@ public class MainViewController implements Initializable, ControlledScreen {
         co_end.setCellValueFactory(new PropertyValueFactory<>("CourseEnd"));
         co_room.setCellValueFactory(new PropertyValueFactory<>("ClassName"));
         co_room.setCellFactory(ComboBoxTableCell.forTableColumn(allClasses()));
-
         co_room.setOnEditCommit(event -> {
             int co_id = event.getTableView().getItems().get(event.getTablePosition().getRow()).getCourse_id();
             int cla_id = event.getNewValue().getCla_id();
@@ -94,10 +95,36 @@ public class MainViewController implements Initializable, ControlledScreen {
         });
         courses.getItems().setAll(allCourses());
 
-
+        // Control Class Screen
+        // Update data
+        // Create data
         claID.setCellValueFactory(new PropertyValueFactory<>("claId"));
+        claID.setCellFactory(TextFieldTableCell.forTableColumn());
+        claID.setOnEditCommit(event -> {
+            int cla_id = event.getTableView().getItems().get(event.getTablePosition().getRow()).getCla_id();
+            String claId = event.getNewValue();
+            UpdateClass(cla_id, claId, "Class ID Update");
+            allClasses().clear();
+            classes.getItems().setAll(allClasses());
+        });
         cla_Name.setCellValueFactory(new PropertyValueFactory<>("cla_Name"));
+        cla_Name.setCellFactory(TextFieldTableCell.forTableColumn());
+        cla_Name.setOnEditCommit(event -> {
+            int cla_id = event.getTableView().getItems().get(event.getTablePosition().getRow()).getCla_id();
+            String cla_name = event.getNewValue();
+            UpdateClass(cla_id, cla_name, "Class Name Update");
+            allClasses().clear();
+            classes.getItems().setAll(allClasses());
+        });
         cla_Room.setCellValueFactory(new PropertyValueFactory<>("cla_Room"));
+        cla_Room.setCellFactory(TextFieldTableCell.forTableColumn());
+        cla_Room.setOnEditCommit(event -> {
+            int cla_id = event.getTableView().getItems().get(event.getTablePosition().getRow()).getCla_id();
+            String cla_room = event.getNewValue();
+            UpdateClass(cla_id, cla_room, "Class Room Update");
+            allClasses().clear();
+            classes.getItems().setAll(allClasses());
+        });
 
         classes.getItems().setAll(allClasses());
 
@@ -108,6 +135,10 @@ public class MainViewController implements Initializable, ControlledScreen {
         });
         newCourse.setOnAction(actionEvent -> myController.setScreen(Main.addCourseID));
         closeButton.setOnAction(actionEvent -> Platform.exit());
+
+        // Control Student Screen
+        // Update data
+        // Create data
     }
 
     private ObservableList<Course> allCourses() {
@@ -168,6 +199,34 @@ public class MainViewController implements Initializable, ControlledScreen {
         return data;
     }
 
+    //    public static ObservableList<Student> allStudents() {
+//        ObservableList<Student> data = FXCollections.observableArrayList();
+//        try {
+//            Statement statement = conn.createStatement();
+//            String sql = "SELECT * From student_mark";
+//            ResultSet rs = statement.executeQuery(sql);
+//            while (rs.next()) {
+//                Student stu = new Student();
+//                stu.setStu_id(rs.getInt("stu_id"));
+//                stu.setStuid(rs.getString("stuid"));
+//                stu.setStu_name(rs.getString("stu_name"));
+//                stu.setStu_mark(rs.getDouble("stu_mark"));
+//                data.add(stu);
+//            }
+//            for (Student a:data) {
+//                Course aCourse = new Course();
+//                while (rs.next()) {
+//                    if(a.getStu_id() == rs.getInt("stu_id")){
+//                       aCourse.setCourseName(rs.getString("co_name"));
+//                       aCourse.s
+//                    }
+//                }
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return data;
+//    }
     private void UpdateCourse(int course, String updateField, String typeUpdate) {
         try {
             Statement statement = conn.createStatement();
@@ -183,6 +242,30 @@ public class MainViewController implements Initializable, ControlledScreen {
                     break;
                 case "Course ID Update":
                     sql = String.format("UPDATE courses SET coid = '%s' Where courses.co_id = %d", updateField, course);
+                    statement.executeUpdate(sql);
+                    break;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void UpdateClass(int clazz, String updateField, String typeUpdate) {
+        try {
+            Statement statement = conn.createStatement();
+            String sql;
+            switch (typeUpdate) {
+                case "Class ID Update":
+                    sql = String.format("UPDATE Classes SET claid = %s Where cla_id = %d", updateField, clazz);
+                    statement.executeUpdate(sql);
+                    break;
+                case "Class Name Update":
+                    sql = String.format("UPDATE Classes SET cla_name = '%s' Where cla_id = %d", updateField, clazz);
+                    statement.executeUpdate(sql);
+                    break;
+                case "Class Room Update":
+                    sql = String.format("UPDATE Classes SET cla_room = '%s' Where cla_id = %d", updateField, clazz);
                     statement.executeUpdate(sql);
                     break;
             }
