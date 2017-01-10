@@ -79,7 +79,26 @@
             </BorderPane>
         </Tab>
         <Tab text="Student">
-            <BorderPane/>
+            <BorderPane>
+                <top>
+                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="46.0" prefWidth="700.0"
+                           text="LIST OF STUDENTS" textAlignment="CENTER" textFill="#6aa6ff"
+                           BorderPane.alignment="CENTER">
+                        <font>
+                            <Font size="41.0"/>
+                        </font>
+                    </Label>
+                </top>
+                <center>
+                    <TableView fx:id="students" editable="true" BorderPane.alignment="CENTER">
+                        <columns>
+                            <TableColumn fx:id="stuID" prefWidth="115.0" text="Class ID"/>
+                            <TableColumn fx:id="stu_Name" prefWidth="115.0" text="Class Name"/>
+                            <TableColumn fx:id="stu_Mark" prefWidth="115.0" text="Class Room"/>
+                        </columns>
+                    </TableView>
+                </center>
+            </BorderPane>
         </Tab>
     </TabPane>
 </Pane>

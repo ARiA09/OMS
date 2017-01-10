@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-01-08 04:23:12
+Date: 2017-01-10 08:07:16
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -242,16 +242,17 @@ CREATE TABLE `classes` (
   `claid` varchar(255) DEFAULT NULL,
   `cla_name` varchar(255) DEFAULT NULL,
   `cla_room` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`cla_id`)
+  PRIMARY KEY (`cla_id`),
+  UNIQUE KEY `claid_unique` (`claid`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of classes
 -- ----------------------------
-INSERT INTO `classes` VALUES ('1', 'C1', 'Class A', '101');
+INSERT INTO `classes` VALUES ('1', 'C1', 'Class A', '103');
 INSERT INTO `classes` VALUES ('2', 'C2', 'Class B', '120');
 INSERT INTO `classes` VALUES ('3', 'C3', 'Class C', '230');
-INSERT INTO `classes` VALUES ('4', 'C4', 'Class D', '210');
+INSERT INTO `classes` VALUES ('4', 'C4', 'Class F', '210');
 INSERT INTO `classes` VALUES ('5', 'C5', 'Class E', '305');
 
 -- ----------------------------
@@ -269,7 +270,7 @@ CREATE TABLE `courses` (
   UNIQUE KEY `coid` (`coid`) USING BTREE,
   KEY `fk_Courses_Classes` (`cla_id`),
   CONSTRAINT `fk_Courses_Classes` FOREIGN KEY (`cla_id`) REFERENCES `classes` (`cla_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of courses
@@ -277,17 +278,17 @@ CREATE TABLE `courses` (
 INSERT INTO `courses` VALUES ('1', '3', 'CO 1', 'IT 1', '2016-12-01', '2016-12-30');
 INSERT INTO `courses` VALUES ('2', '5', 'CO 2', 'IT 2', '2016-12-01', '2016-12-30');
 INSERT INTO `courses` VALUES ('3', '4', 'CO 7', 'IT 3', '2016-12-01', '2016-12-30');
-INSERT INTO `courses` VALUES ('4', '1', 'CO 4', 'IT 4', '2016-12-01', '2016-12-30');
-INSERT INTO `courses` VALUES ('5', '1', 'CO 5', 'IT 5', '2016-12-01', '2016-12-30');
+INSERT INTO `courses` VALUES ('4', '2', 'CO 4', 'IT 4', '2016-12-01', '2016-12-30');
+INSERT INTO `courses` VALUES ('5', '2', 'CO 5', 'IT 5', '2016-12-01', '2016-12-30');
 INSERT INTO `courses` VALUES ('6', '3', 'CO 6', 'IT 6', '2016-12-01', '2016-12-30');
 INSERT INTO `courses` VALUES ('8', '1', 'CO 8', 'IT 8', '2016-12-01', '2016-12-30');
 INSERT INTO `courses` VALUES ('9', '2', 'CO 9', 'IT 9', '2016-12-01', '2016-12-30');
 INSERT INTO `courses` VALUES ('10', '2', 'CO 10', 'IT 10', '2016-12-01', '2016-12-30');
 INSERT INTO `courses` VALUES ('11', '2', 'CO 11', 'IT 11', '2017-01-08', '2017-01-13');
-INSERT INTO `courses` VALUES ('12', '1', 'CO 12', 'IT 12', '2017-01-09', '2017-01-13');
+INSERT INTO `courses` VALUES ('12', '4', 'CO 12', 'IT 12', '2017-01-09', '2017-01-13');
 INSERT INTO `courses` VALUES ('13', '2', 'CO 13', 'IT 13', '2017-01-09', '2017-01-12');
-INSERT INTO `courses` VALUES ('14', null, 'CO 15', 'IT 15', '2017-01-11', '2017-01-12');
-INSERT INTO `courses` VALUES ('15', null, 'CO 16', 'IT 16', '2017-01-10', '2017-01-13');
+INSERT INTO `courses` VALUES ('14', '1', 'CO 15', 'IT 15', '2017-01-11', '2017-01-12');
+INSERT INTO `courses` VALUES ('15', '1', 'CO 16', 'IT 16', '2017-01-10', '2017-01-13');
 
 -- ----------------------------
 -- Table structure for questions
@@ -370,41 +371,42 @@ CREATE TABLE `students` (
   `stu_password` varchar(255) NOT NULL,
   `stu_role` int(1) DEFAULT '2',
   PRIMARY KEY (`stu_id`),
-  UNIQUE KEY `stu_username` (`stu_username`)
+  UNIQUE KEY `stu_username` (`stu_username`),
+  UNIQUE KEY `stuid` (`stuid`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of students
 -- ----------------------------
-INSERT INTO `students` VALUES ('1', '', 'PENELOPE', '0', 'PENELOPE', '123456', '2');
-INSERT INTO `students` VALUES ('2', '', 'NICK', '0', 'NICK', '123456', '2');
-INSERT INTO `students` VALUES ('3', '', 'ED', '0', 'ED', '123456', '2');
-INSERT INTO `students` VALUES ('4', '', 'JENNIFER', '0', 'JENNIFER', '123456', '2');
-INSERT INTO `students` VALUES ('5', '', 'JOHNNY', '0', 'JOHNNY', '123456', '2');
-INSERT INTO `students` VALUES ('6', '', 'BETTE', '0', 'BETTE', '123456', '2');
-INSERT INTO `students` VALUES ('7', '', 'GRACE', '0', 'GRACE', '123456', '2');
-INSERT INTO `students` VALUES ('8', '', 'MATTHEW', '0', 'MATTHEW', '123456', '2');
-INSERT INTO `students` VALUES ('9', '', 'JOE', '0', 'JOE', '123456', '2');
-INSERT INTO `students` VALUES ('10', '', 'ZERO', '0', 'ZERO', '123456', '2');
-INSERT INTO `students` VALUES ('11', '', 'KARL', '0', 'KARL', '123456', '2');
-INSERT INTO `students` VALUES ('12', '', 'UMA', '0', 'UMA', '123456', '2');
-INSERT INTO `students` VALUES ('13', '', 'CHRISTIAN', '0', 'CHRISTIAN', '123456', '2');
-INSERT INTO `students` VALUES ('14', '', 'VIVIEN', '0', 'VIVIEN', '123456', '2');
-INSERT INTO `students` VALUES ('15', '', 'CUBA', '0', 'CUBA', '123456', '2');
-INSERT INTO `students` VALUES ('16', '', 'FRED', '0', 'FRED', '123456', '2');
-INSERT INTO `students` VALUES ('17', '', 'HELEN', '0', 'HELEN', '123456', '2');
-INSERT INTO `students` VALUES ('18', '', 'DAN', '0', 'DAN', '123456', '2');
-INSERT INTO `students` VALUES ('19', '', 'BOB', '0', 'BOB', '123456', '2');
-INSERT INTO `students` VALUES ('20', '', 'LUCILLE', '0', 'LUCILLE', '123456', '2');
-INSERT INTO `students` VALUES ('21', '', 'KIRSTEN', '0', 'KIRSTEN', '123456', '2');
-INSERT INTO `students` VALUES ('22', '', 'ELVIS', '0', 'ELVIS', '123456', '2');
-INSERT INTO `students` VALUES ('23', '', 'SANDRA', '0', 'SANDRA', '123456', '2');
-INSERT INTO `students` VALUES ('24', '', 'CAMERON', '0', 'CAMERON', '123456', '2');
-INSERT INTO `students` VALUES ('25', '', 'KEVIN', '0', 'KEVIN', '123456', '2');
-INSERT INTO `students` VALUES ('26', '', 'RIP', '0', 'RIP', '123456', '2');
-INSERT INTO `students` VALUES ('27', '', 'JULIA', '0', 'JULIA', '123456', '2');
-INSERT INTO `students` VALUES ('28', '', 'WOODY', '0', 'WOODY', '123456', '2');
-INSERT INTO `students` VALUES ('29', '', 'ALEC', '0', 'ALEC', '123456', '2');
+INSERT INTO `students` VALUES ('1', 'STU01', 'PENELOPE', '15', 'PENELOPE', '123456', '2');
+INSERT INTO `students` VALUES ('2', 'STU02', 'NICK', '0', 'NICK', '123456', '2');
+INSERT INTO `students` VALUES ('3', 'STU03', 'ED', '0', 'ED', '123456', '2');
+INSERT INTO `students` VALUES ('4', 'STU04', 'JENNIFER', '0', 'JENNIFER', '123456', '2');
+INSERT INTO `students` VALUES ('5', 'STU05', 'JOHNNY', '0', 'JOHNNY', '123456', '2');
+INSERT INTO `students` VALUES ('6', 'STU06', 'BETTE', '0', 'BETTE', '123456', '2');
+INSERT INTO `students` VALUES ('7', 'STU07', 'GRACE', '0', 'GRACE', '123456', '2');
+INSERT INTO `students` VALUES ('8', 'STU08', 'MATTHEW', '0', 'MATTHEW', '123456', '2');
+INSERT INTO `students` VALUES ('9', 'STU09', 'JOE', '0', 'JOE', '123456', '2');
+INSERT INTO `students` VALUES ('10', 'STU10', 'ZERO', '0', 'ZERO', '123456', '2');
+INSERT INTO `students` VALUES ('11', 'STU11', 'KARL', '0', 'KARL', '123456', '2');
+INSERT INTO `students` VALUES ('12', 'STU12', 'UMA', '0', 'UMA', '123456', '2');
+INSERT INTO `students` VALUES ('13', 'STU13', 'CHRISTIAN', '0', 'CHRISTIAN', '123456', '2');
+INSERT INTO `students` VALUES ('14', 'STU14', 'VIVIEN', '0', 'VIVIEN', '123456', '2');
+INSERT INTO `students` VALUES ('15', 'STU15', 'CUBA', '0', 'CUBA', '123456', '2');
+INSERT INTO `students` VALUES ('16', 'STU16', 'FRED', '0', 'FRED', '123456', '2');
+INSERT INTO `students` VALUES ('17', 'STU17', 'HELEN', '0', 'HELEN', '123456', '2');
+INSERT INTO `students` VALUES ('18', 'STU18', 'DAN', '0', 'DAN', '123456', '2');
+INSERT INTO `students` VALUES ('19', 'STU19', 'BOB', '0', 'BOB', '123456', '2');
+INSERT INTO `students` VALUES ('20', 'STU20', 'LUCILLE', '0', 'LUCILLE', '123456', '2');
+INSERT INTO `students` VALUES ('21', 'STU21', 'KIRSTEN', '0', 'KIRSTEN', '123456', '2');
+INSERT INTO `students` VALUES ('22', 'STU22', 'ELVIS', '0', 'ELVIS', '123456', '2');
+INSERT INTO `students` VALUES ('23', 'STU23', 'SANDRA', '0', 'SANDRA', '123456', '2');
+INSERT INTO `students` VALUES ('24', 'STU24', 'CAMERON', '0', 'CAMERON', '123456', '2');
+INSERT INTO `students` VALUES ('25', 'STU25', 'KEVIN', '0', 'KEVIN', '123456', '2');
+INSERT INTO `students` VALUES ('26', 'STU26', 'RIP', '0', 'RIP', '123456', '2');
+INSERT INTO `students` VALUES ('27', 'STU27', 'JULIA', '0', 'JULIA', '123456', '2');
+INSERT INTO `students` VALUES ('28', 'STU28', 'WOODY', '0', 'WOODY', '123456', '2');
+INSERT INTO `students` VALUES ('29', 'STU29', 'ALEC', '0', 'ALEC', '123456', '2');
 
 -- ----------------------------
 -- Table structure for stu_co
@@ -414,14 +416,23 @@ CREATE TABLE `stu_co` (
   `stu_co_id` int(255) NOT NULL AUTO_INCREMENT,
   `stu_id` int(255) NOT NULL,
   `co_id` int(255) NOT NULL,
+  `co_mark` double(3,0) DEFAULT NULL,
   PRIMARY KEY (`stu_co_id`),
   KEY `fk_stu_co_Students_1` (`stu_id`),
   KEY `fk_stu_co_Courses_1` (`co_id`),
   CONSTRAINT `fk_stu_co_Courses_1` FOREIGN KEY (`co_id`) REFERENCES `courses` (`co_id`),
   CONSTRAINT `fk_stu_co_Students_1` FOREIGN KEY (`stu_id`) REFERENCES `students` (`stu_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of stu_co
 -- ----------------------------
+INSERT INTO `stu_co` VALUES ('1', '1', '1', '10');
+INSERT INTO `stu_co` VALUES ('2', '1', '2', '5');
+
+-- ----------------------------
+-- View structure for student_mark
+-- ----------------------------
+DROP VIEW IF EXISTS `student_mark`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `student_mark` AS select `students`.`stu_id` AS `stu_id`,`students`.`stuid` AS `stuid`,`students`.`stu_name` AS `stu_name`,`students`.`stu_mark` AS `stu_mark`,`stu_co`.`co_mark` AS `co_mark`,`courses`.`co_name` AS `co_name` from ((`students` join `stu_co` on((`stu_co`.`stu_id` = `students`.`stu_id`))) join `courses` on((`stu_co`.`co_id` = `courses`.`co_id`))) ;
 SET FOREIGN_KEY_CHECKS=1;
