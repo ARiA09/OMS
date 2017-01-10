@@ -10,7 +10,7 @@ public class Student {
     private String stu_username;
     private String stu_password;
     private int stu_role;
-    private List<Course> course;
+    private List<Stu_co> co_mark;
 
     public Student() {
     }
@@ -76,11 +76,11 @@ public class Student {
         this.stu_id = stu_id;
     }
 
-    public List<Course> getCourse() {
-        return course;
+    public List<Stu_co> getCo_mark() {
+        return co_mark;
     }
 
-    public void setCourse(List<Course> course) {
-        this.course = course;
+    public void setCo_mark(List<Stu_co> co_mark) {
+        this.co_mark = co_mark;
     }
 }

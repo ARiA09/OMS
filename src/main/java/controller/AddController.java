@@ -1,5 +1,6 @@
 package controller;
 
+import database.DataList;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -17,8 +18,9 @@ import java.util.ResourceBundle;
 import static main.Main.conn;
 
 public class AddController implements Initializable, ControlledScreen {
-    ScreensController myController;
-    ObservableList<Clazz> allClasses = MainViewController.allClasses();
+    private ScreensController myController;
+    private DataList data = new DataList();
+    private ObservableList<Clazz> allClasses = data.allClasses();
     @FXML
     private Button closeButton;
     @FXML
@@ -110,6 +112,7 @@ public class AddController implements Initializable, ControlledScreen {
                 errMsg.setVisible(true);
                 updateFailed = true;
             } else {
+                System.out.println("SQL ERROR!!!");
                 //e.printStackTrace();
             }
         }

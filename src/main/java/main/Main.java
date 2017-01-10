@@ -2,24 +2,23 @@ package main;
 
 import controller.ScreensController;
 import javafx.application.Application;
-import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import jdbc.DatabaseConnection;
+import database.DatabaseConnection;
 
 import java.sql.Connection;
 
 public class Main extends Application {
 
-    public static String loginID = "Login";
-    public static String loginFile = "/view/Login.fxml";
+    private static String loginID = "Login";
+    private static String loginFile = "/view/Login.fxml";
     public static String mainViewID = "MainView";
-    public static String mainViewFile = "/view/MainView.fxml";
+    private static String mainViewFile = "/view/MainView.fxml";
     public static String addCourseID = "AddCourse";
-    public static String addCourseFile = "/view/AddingCourse.fxml";
-    public static DatabaseConnection db;
+    private static String addCourseFile = "/view/AddingCourse.fxml";
+    private static DatabaseConnection db;
     public static Connection conn;
 
     @Override
@@ -78,5 +77,3 @@ public class Main extends Application {
         double x, y;
     }
 }
-
-

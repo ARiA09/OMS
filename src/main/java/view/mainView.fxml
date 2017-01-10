@@ -48,10 +48,10 @@
                         <rowConstraints>
                             <RowConstraints prefHeight="30.0" vgrow="SOMETIMES"/>
                         </rowConstraints>
-                        <Button fx:id="refreshView" mnemonicParsing="false" text="Refresh" GridPane.valignment="CENTER"
-                                GridPane.halignment="RIGHT"/>
-                        <Button fx:id="newCourse" mnemonicParsing="false" GridPane.columnIndex="1" text="Add New Course"
-                                GridPane.valignment="CENTER" GridPane.halignment="LEFT"/>
+                        <Button fx:id="refreshView" mnemonicParsing="false" text="Refresh" GridPane.halignment="RIGHT"
+                                GridPane.valignment="CENTER"/>
+                        <Button fx:id="newCourse" mnemonicParsing="false" text="Add New Course" GridPane.columnIndex="1"
+                                GridPane.halignment="LEFT" GridPane.valignment="CENTER"/>
                     </GridPane>
                 </bottom>
             </BorderPane>
@@ -68,7 +68,7 @@
                     </Label>
                 </top>
                 <center>
-                    <TableView fx:id="classes" editable="true" BorderPane.alignment="CENTER">
+                    <TableView fx:id="classes" editable="true" maxHeight="500.0" BorderPane.alignment="CENTER">
                         <columns>
                             <TableColumn fx:id="claID" prefWidth="115.0" text="Class ID"/>
                             <TableColumn fx:id="cla_Name" prefWidth="115.0" text="Class Name"/>
@@ -76,29 +76,45 @@
                         </columns>
                     </TableView>
                 </center>
+                <bottom>
+                    <GridPane>
+                        <columnConstraints>
+                            <ColumnConstraints prefWidth="400.0"/>
+                            <ColumnConstraints prefWidth="400.0"/>
+                        </columnConstraints>
+                        <rowConstraints>
+                            <RowConstraints prefHeight="30.0" vgrow="SOMETIMES"/>
+                        </rowConstraints>
+                        <Button fx:id="refreshClass" mnemonicParsing="false" text="Refresh" GridPane.halignment="RIGHT"
+                                GridPane.valignment="CENTER"/>
+                        <Button fx:id="newClass" mnemonicParsing="false" text="Add New Class" GridPane.columnIndex="1"
+                                GridPane.halignment="LEFT" GridPane.valignment="CENTER"/>
+                    </GridPane>
+                </bottom>
             </BorderPane>
         </Tab>
         <Tab text="Student">
-            <BorderPane>
-                <top>
-                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="46.0" prefWidth="700.0"
-                           text="LIST OF STUDENTS" textAlignment="CENTER" textFill="#6aa6ff"
+            <SplitPane dividerPositions="0.5" minWidth="750.0">
+                <AnchorPane minWidth="375.0" maxWidth="375.0">
+                    <TableView fx:id="students" editable="true" BorderPane.alignment="CENTER" minHeight="500.0"
+                               maxWidth="375.0">
+                        <columns>
+                            <TableColumn fx:id="stuID" minWidth="130.0" text="Student ID"/>
+                            <TableColumn fx:id="stuName" minWidth="145.0" text="Student Name"/>
+                            <TableColumn fx:id="stuMarkTotal" minWidth="100.0" text="Mark"/>
+                        </columns>
+                    </TableView>
+                </AnchorPane>
+                <AnchorPane minWidth="375.0" maxWidth="375.0">
+                    <Label alignment="CENTER" fx:id="stu_Name" contentDisplay="CENTER" minWidth="375.0"
+                           text="Student Name" textAlignment="CENTER" textFill="#6aa6ff"
                            BorderPane.alignment="CENTER">
                         <font>
                             <Font size="41.0"/>
                         </font>
                     </Label>
-                </top>
-                <center>
-                    <TableView fx:id="students" editable="true" BorderPane.alignment="CENTER">
-                        <columns>
-                            <TableColumn fx:id="stuID" prefWidth="115.0" text="Class ID"/>
-                            <TableColumn fx:id="stu_Name" prefWidth="115.0" text="Class Name"/>
-                            <TableColumn fx:id="stu_Mark" prefWidth="115.0" text="Class Room"/>
-                        </columns>
-                    </TableView>
-                </center>
-            </BorderPane>
+                </AnchorPane>
+            </SplitPane>
         </Tab>
     </TabPane>
 </Pane>
