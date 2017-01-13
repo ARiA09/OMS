@@ -6,7 +6,7 @@
 <?import javafx.scene.text.Font?>
 <Pane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #e6e6e6"
       xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="controller.AddCourseController">
+      fx:controller="controller.AddStudentController">
     <ToolBar style="-fx-background-color: #e6e6e6" translateX="765.0">
         <Button fx:id="closeButton" maxHeight="20.0" mnemonicParsing="_F4" styleClass="red" translateY="-6.0"/>
     </ToolBar>
@@ -28,10 +28,8 @@
             <RowConstraints prefHeight="70" vgrow="SOMETIMES"/>
             <RowConstraints prefHeight="70" vgrow="SOMETIMES"/>
             <RowConstraints prefHeight="70" vgrow="SOMETIMES"/>
-            <RowConstraints prefHeight="70" vgrow="SOMETIMES"/>
-            <RowConstraints prefHeight="70" vgrow="SOMETIMES"/>
         </rowConstraints>
-        <Label text="New Course" textFill="#00986e" GridPane.columnIndex="0" GridPane.columnSpan="2"
+        <Label text="New Student" textFill="#00986e" GridPane.columnIndex="0" GridPane.columnSpan="2"
                GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER">
             <font>
                 <Font name="System Bold" size="24.0"/>
@@ -40,22 +38,19 @@
                 <Insets/>
             </GridPane.margin>
         </Label>
-        <Label text="Course ID*" GridPane.rowIndex="1"/>
-        <Label text="Course Name*" GridPane.rowIndex="2"/>
-        <Label text="Course Start Time*" GridPane.rowIndex="3"/>
-        <Label text="Course End Time*" GridPane.rowIndex="4"/>
-        <Label text="Class Room" GridPane.rowIndex="5"/>
-        <TextField fx:id="co_idTxt" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-        <TextField fx:id="co_nameTxt" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-        <DatePicker fx:id="co_date_startTxt" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-        <DatePicker fx:id="co_date_endTxt" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
-        <ComboBox fx:id="co_roomTxt" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
-        <Button fx:id="cnBtn" mnemonicParsing="false" text="Cancel" GridPane.halignment="RIGHT" GridPane.rowIndex="6"
+        <Label text="Student ID*" GridPane.rowIndex="1"/>
+        <Label text="Student Name" GridPane.rowIndex="2"/>
+        <Label text="Student Password" GridPane.rowIndex="3"/>
+        <TextField fx:id="stu_idTxt" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        <TextField fx:id="stu_nameTxt" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+        <TextField fx:id="stu_passwordTxt" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+        <Button fx:id="cnBtnStudent" mnemonicParsing="false" text="Cancel" GridPane.halignment="RIGHT"
+                GridPane.rowIndex="4"
                 GridPane.valignment="CENTER"/>
-        <Button fx:id="submitBtn" mnemonicParsing="false" text="Create Course" GridPane.columnIndex="1"
-                GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="CENTER"/>
+        <Button fx:id="submitBtnStudent" mnemonicParsing="false" text="Create Student" GridPane.columnIndex="1"
+                GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER"/>
         <Label fx:id="errMsg" text="Label" textFill="red" GridPane.columnIndex="0" GridPane.columnSpan="2"
-               GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER">
+               GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
             <font>
                 <Font name="System Bold Italic" size="24.0"/>
             </font>

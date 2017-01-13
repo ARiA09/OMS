@@ -2,6 +2,10 @@ package controller;
 
 import database.DataList;
 import javafx.application.Platform;
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -12,14 +16,21 @@ import javafx.scene.input.MouseButton;
 import main.Main;
 import model.Clazz;
 import model.Course;
+import model.Stu_co;
 import model.Student;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class MainViewController implements Initializable, ControlledScreen {
-    private ScreensController myController;
+import static main.Main.mainContainer;
 
+public class MainViewController implements Initializable, ControlledScreen {
+    public static int coTest;
+    public static String coName;
+    public static Student[] enrollStu = {new Student()};
+    private ScreensController myController;
+    @FXML
+    private Tab tabStudent;
     @FXML
     private Button closeButton;
     @FXML
@@ -34,7 +45,6 @@ public class MainViewController implements Initializable, ControlledScreen {
     private TableColumn<Course, DateCell> co_end;
     @FXML
     private TableColumn<Course, Clazz> co_room;
-
     @FXML
     private TableView<Clazz> classes;
     @FXML
@@ -43,7 +53,6 @@ public class MainViewController implements Initializable, ControlledScreen {
     private TableColumn<Clazz, String> cla_Name;
     @FXML
     private TableColumn<Clazz, String> cla_Room;
-
     @FXML
     private TableView<Student> students;
     @FXML
@@ -54,7 +63,6 @@ public class MainViewController implements Initializable, ControlledScreen {
     private TableColumn<Student, Number> stuMarkTotal;
     @FXML
     private Label stu_Name;
-
     @FXML
     private Button newCourse;
     @FXML
@@ -63,9 +71,40 @@ public class MainViewController implements Initializable, ControlledScreen {
     private Button newClass;
     @FXML
     private Button refreshClass;
+    @FXML
+    private Button refreshStudent;
+    @FXML
+    private Button newStudent;
+    @FXML
+    private Button takeTest;
+    @FXML
+    private Button enroll;
+    @FXML
+    private ComboBox<Course> testCourse;
+    @FXML
+    private ListView<String> listClass;
+    @FXML
+    private Tab tabTest;
+    @FXML
+    private Label studentTest;
+    private ListProperty<String> listProperty = new SimpleListProperty<>();
 
     public void initialize(URL location, ResourceBundle resources) {
         DataList data = new DataList();
+        courses.setOnMouseClicked(event -> disableField());
+        classes.setOnMouseClicked(event -> disableField());
+        tabStudent.setOnSelectionChanged(event -> {
+            students.getItems().clear();
+            students.getItems().add(LoginController.loginStudent);
+        });
+        tabTest.setOnSelectionChanged(event -> {
+            ObservableList<Course> testSelect = FXCollections.observableArrayList();
+            for (Stu_co aStuCo : LoginController.loginStudent.getCo_mark()) {
+                testSelect.addAll(data.specificCourses(aStuCo.getCoid()));
+            }
+            studentTest.setText(LoginController.loginStudent.getStu_name());
+            testCourse.getItems().setAll(testSelect);
+        });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -111,8 +150,11 @@ public class MainViewController implements Initializable, ControlledScreen {
         refreshView.setOnAction(actionEvent -> {
             courses.getItems().setAll(data.allCourses());
             courses.getSortOrder().add(coid);
+            co_room.setCellFactory(ComboBoxTableCell.forTableColumn(data.allClasses()));
         });
-        newCourse.setOnAction(actionEvent -> myController.setScreen(Main.addCourseID));
+        newCourse.setOnAction(actionEvent -> {
+            if (LoginController.loginStudent.getStu_role() == 1) myController.setScreen(Main.addCourseID);
+        });
         closeButton.setOnAction(actionEvent -> Platform.exit());
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -158,6 +200,10 @@ public class MainViewController implements Initializable, ControlledScreen {
             classes.getSortOrder().add(claID);
         });
 
+        newClass.setOnAction(event -> {
+            if (LoginController.loginStudent.getStu_role() == 1) myController.setScreen(Main.addClassID);
+        });
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -194,17 +240,67 @@ public class MainViewController implements Initializable, ControlledScreen {
 //        });
 
         students.setRowFactory(event -> {
+            ObservableList<String> coursesDetail = FXCollections.observableArrayList();
             TableRow<Student> tr = new TableRow<>();
             tr.setOnMouseClicked(clickEvent -> {
                 if (!tr.isEmpty() && clickEvent.getButton() == MouseButton.PRIMARY) {
                     stu_Name.setText(tr.getItem().getStu_name());
+                    enrollStu[0] = tr.getItem();
+                    for (Stu_co aStu : tr.getItem().getCo_mark()) {
+                        coursesDetail.add(data.specificCourses(aStu.getCoid()).toString() + "----Mark:" + aStu.getMark_co());
+                    }
+                    listProperty.set(coursesDetail);
+                    listClass.itemsProperty().bind(listProperty);
                 }
             });
             return tr;
+
+        });
+        refreshStudent.setOnAction(event -> {
+            students.getItems().setAll(data.allStudents());
+            students.getSortOrder().add(stuID);
         });
 
+        newStudent.setOnAction(event -> {
+            if (LoginController.loginStudent.getStu_role() == 1) myController.setScreen(Main.addStudentID);
+        });
         students.getItems().setAll(data.allStudents());
         students.getSortOrder().add(stuID);
+
+        takeTest.setOnAction(event -> {
+            //mainContainer.unloadScreen(Main.testID);
+            if (!testCourse.getSelectionModel().isEmpty()) {
+                coTest = testCourse.getSelectionModel().getSelectedItem().getCourse_id();
+                coName = testCourse.getSelectionModel().getSelectedItem().getCourseName();
+
+                mainContainer.unloadScreen(Main.testID);
+                mainContainer.loadScreen(Main.testID, Main.testFile);
+                myController.setScreen(Main.testID);
+            }
+        });
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        enroll.setOnAction(event -> {
+            if (enrollStu[0].getStu_id() > 0) {
+                mainContainer.unloadScreen(Main.enrollID);
+                mainContainer.loadScreen(Main.enrollID, Main.enrollFile);
+                myController.setScreen(Main.enrollID);
+            }
+        });
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    private void disableField() {
+        if (LoginController.loginStudent.getStu_role() == 2) {
+            courses.setEditable(false);
+            classes.setEditable(false);
+        }
+
     }
 
     @Override
@@ -212,3 +308,4 @@ public class MainViewController implements Initializable, ControlledScreen {
         myController = screenPage;
     }
 }
+

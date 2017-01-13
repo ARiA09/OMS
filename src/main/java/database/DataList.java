@@ -3,16 +3,12 @@ package database;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import model.Clazz;
-import model.Course;
-import model.Stu_co;
-import model.Student;
+import model.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 
 import static main.Main.conn;
 
@@ -59,6 +55,27 @@ public class DataList {
         return data;
     }
 
+    public ObservableList<Course> specificCourses(int CourseID) {
+        ObservableList<Course> data = FXCollections.observableArrayList();
+        try {
+            Statement statement = conn.createStatement();
+            String sql = String.format("SELECT * From Courses Where co_id = %d", CourseID);
+            ResultSet rs = statement.executeQuery(sql);
+            while (rs.next()) {
+                Course aCourse = new Course();
+                aCourse.setCourse_id(rs.getInt("co_id"));
+                aCourse.setCourseId(rs.getString("coid"));
+                aCourse.setCourseName(rs.getString("co_name"));
+                aCourse.setCourseStart(rs.getDate("co_start_time"));
+                aCourse.setCourseEnd(rs.getDate("co_end_time"));
+                data.add(aCourse);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
+
     public ObservableList<Clazz> allClasses() {
         ObservableList<Clazz> data = FXCollections.observableArrayList();
         try {
@@ -79,11 +96,11 @@ public class DataList {
         return data;
     }
 
-    private ObservableList<Stu_co> allDetail() {
+    public ObservableList<Stu_co> allDetail(int StudentID) {
         ObservableList<Stu_co> data = FXCollections.observableArrayList();
         try {
             Statement statement = conn.createStatement();
-            String sql = "SELECT * From stu_co";
+            String sql = String.format("SELECT * From stu_co Where stu_id = %d", StudentID);
             ResultSet rs = statement.executeQuery(sql);
             while (rs.next()) {
                 Stu_co stu_co = new Stu_co();
@@ -116,14 +133,53 @@ public class DataList {
             }
 
             for (Student aStu : data) {
-                List<Stu_co> detail = new ArrayList<>();
-                for (Stu_co aDetail : allDetail()) {
-                    if (aDetail.getStuid() == aStu.getStu_id()) {
-                        detail.add(aDetail);
-                    }
-                }
-                aStu.setCo_mark(detail);
+                aStu.setCo_mark(allDetail(aStu.getStu_id()));
             }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    private ObservableList<Answer> allAnswers(int QuestionID) {
+        ObservableList<Answer> data = FXCollections.observableArrayList();
+        try {
+            Statement statement = conn.createStatement();
+            String sql = String.format("SELECT * From Answers Where ques_id = %d ORDER BY RAND()", QuestionID);
+            ResultSet rs = statement.executeQuery(sql);
+            while (rs.next()) {
+                Answer ans = new Answer();
+                ans.setAns_id(rs.getInt("ans_id"));
+                ans.setQues_id(rs.getInt("ques_id"));
+                ans.setDetail(rs.getString("ans_detail"));
+                ans.setResult(rs.getInt("ans_result"));
+                data.add(ans);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    public ObservableList<Question> allQuestion(int CourseID) {
+        ObservableList<Question> data = FXCollections.observableArrayList();
+        try {
+            Statement statement = conn.createStatement();
+            String sql = String.format("SELECT * From Questions Where co_id = %d", CourseID);
+            ResultSet rs = statement.executeQuery(sql);
+            while (rs.next()) {
+                Question ques = new Question();
+                ques.setQues_id(rs.getInt("ques_id"));
+                ques.setQuesid(rs.getString("quesid"));
+                ques.setDetail(rs.getString("ques_detail"));
+                data.add(ques);
+            }
+            for (Question aQuestion : data) {
+                aQuestion.setAnswers(allAnswers(aQuestion.getQues_id()));
+            }
+            Collections.shuffle(data);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

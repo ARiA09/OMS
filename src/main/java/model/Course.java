@@ -69,4 +69,9 @@ public class Course {
     public void setClazz(Clazz clazz) {
         Clazz = clazz;
     }
+
+    @Override
+    public String toString() {
+        return CourseName;
+    }
 }

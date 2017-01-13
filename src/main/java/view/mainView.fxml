@@ -5,7 +5,7 @@
 <?import javafx.scene.text.Font?>
 <Pane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #e6e6e6"
       xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="controller.MainViewController">
+      fx:controller="controller.MainViewController" fx:id="paneMain">
     <ToolBar style="-fx-background-color: #e6e6e6" translateX="765.0">
         <Button fx:id="closeButton" maxHeight="20.0" mnemonicParsing="_F4" styleClass="red" translateY="-6.0"/>
     </ToolBar>
@@ -93,19 +93,23 @@
                 </bottom>
             </BorderPane>
         </Tab>
-        <Tab text="Student">
+        <Tab text="Student" fx:id="tabStudent">
             <SplitPane dividerPositions="0.5" minWidth="750.0">
-                <AnchorPane minWidth="375.0" maxWidth="375.0">
+                <AnchorPane minWidth="400.0" maxWidth="400.0">
                     <TableView fx:id="students" editable="true" BorderPane.alignment="CENTER" minHeight="500.0"
-                               maxWidth="375.0">
+                               maxWidth="400.0">
                         <columns>
                             <TableColumn fx:id="stuID" minWidth="130.0" text="Student ID"/>
-                            <TableColumn fx:id="stuName" minWidth="145.0" text="Student Name"/>
+                            <TableColumn fx:id="stuName" minWidth="170.0" text="Student Name"/>
                             <TableColumn fx:id="stuMarkTotal" minWidth="100.0" text="Mark"/>
                         </columns>
                     </TableView>
+                    <Button text="Refresh" fx:id="refreshStudent" AnchorPane.bottomAnchor="1" prefHeight="30"
+                            prefWidth="200.0"/>
+                    <Button text="Add Student" fx:id="newStudent" AnchorPane.bottomAnchor="1"
+                            AnchorPane.leftAnchor="200" prefHeight="30" prefWidth="200.0"/>
                 </AnchorPane>
-                <AnchorPane minWidth="375.0" maxWidth="375.0">
+                <AnchorPane minWidth="400.0" maxWidth="400.0">
                     <Label alignment="CENTER" fx:id="stu_Name" contentDisplay="CENTER" minWidth="375.0"
                            text="Student Name" textAlignment="CENTER" textFill="#6aa6ff"
                            BorderPane.alignment="CENTER">
@@ -113,8 +117,33 @@
                             <Font size="41.0"/>
                         </font>
                     </Label>
+                    <ListView maxWidth="400.0" minWidth="400.0" prefHeight="500" translateY="50" fx:id="listClass"/>
+                    <Button text="Enroll" fx:id="enroll" AnchorPane.bottomAnchor="1" prefHeight="30" prefWidth="400.0"/>
                 </AnchorPane>
             </SplitPane>
+        </Tab>
+        <Tab text="Test" fx:id="tabTest">
+            <GridPane>
+                <columnConstraints>
+                    <ColumnConstraints prefWidth="800.0"/>
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints prefHeight="30.0" vgrow="SOMETIMES"/>
+                    <RowConstraints prefHeight="30.0" vgrow="SOMETIMES"/>
+                    <RowConstraints prefHeight="30.0" vgrow="SOMETIMES"/>
+                </rowConstraints>
+                <Label alignment="CENTER" fx:id="studentTest" contentDisplay="CENTER" minWidth="375.0"
+                       text="Student Name" textAlignment="CENTER" textFill="#6aa6ff"
+                       BorderPane.alignment="CENTER" GridPane.halignment="CENTER">
+                    <font>
+                        <Font size="41.0"/>
+                    </font>
+                </Label>
+                <ComboBox fx:id="testCourse" GridPane.rowIndex="1" GridPane.valignment="TOP"
+                          GridPane.halignment="CENTER"/>
+                <Button fx:id="takeTest" mnemonicParsing="false" text="Start Test" GridPane.halignment="CENTER"
+                        GridPane.valignment="TOP" GridPane.rowIndex="2"/>
+            </GridPane>
         </Tab>
     </TabPane>
 </Pane>

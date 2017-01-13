@@ -2,28 +2,43 @@
     -fx-opacity: 0.0;
 }
 
-.tab-pane
-{
-    -fx-tab-min-width:90.0px;
+.hide-header .column-header-background {
+    visibility: hidden;
+    -fx-padding: -1em;
 }
 
-.tab{
-    -fx-background-insets: 0.0 1.0 0.0 1.0,0.0,0.0;
+.wizard {
+    -fx-tab-max-height: 0;
 }
-.tab-pane .tab
-{
+
+.wizard .tab-header-area {
+    visibility: hidden;
+}
+
+.split-pane *.split-pane-divider {
+    -fx-padding: 0 0 0 0;
+}
+
+.tab-pane {
+    -fx-tab-min-width: 90px;
+}
+
+.tab {
+    -fx-background-insets: 0.0 1.0 0.0 1.0, 0.0, 0.0;
+}
+
+.tab-pane .tab {
     -fx-background-color: #e6e6e6;
 }
 
-.tab-pane .tab:selected
-{
+.tab-pane .tab:selected {
     -fx-background-color: #3c3c3c;
 }
 
 .tab .tab-label {
     -fx-alignment: CENTER;
     -fx-text-fill: #828282;
-    -fx-font-size: 15.0px;
+    -fx-font-size: 15px;
     -fx-font-weight: bold;
 }
 
@@ -38,32 +53,32 @@
     -fx-text-fill: #96b946;
 }
 
-.red{
-	-fx-background-insets: 0.0,1.0,2.0;
-    -fx-background-radius: 3.0,2.0,1.0;
-	-fx-min-width: 15.0px;
-	-fx-min-height: 15.0px;
-	-fx-max-width: 15.0px;
-	-fx-max-height: 15.0px;
-	-fx-background-color: red;
+.red {
+    -fx-background-insets: 0.0, 1.0, 2.0;
+    -fx-background-radius: 3.0, 2.0, 1.0;
+    -fx-min-width: 15px;
+    -fx-min-height: 15px;
+    -fx-max-width: 15px;
+    -fx-max-height: 15px;
+    -fx-background-color: red;
 }
 
-.orange{
-	-fx-background-insets: 0.0,1.0,2.0;
-    -fx-background-radius: 3.0,2.0,1.0;
-	-fx-min-width: 15.0px;
-	-fx-min-height: 15.0px;
-	-fx-max-width: 15.0px;
-	-fx-max-height: 15.0px;
-	-fx-background-color: orange;
+.orange {
+    -fx-background-insets: 0.0, 1.0, 2.0;
+    -fx-background-radius: 3.0, 2.0, 1.0;
+    -fx-min-width: 15px;
+    -fx-min-height: 15px;
+    -fx-max-width: 15px;
+    -fx-max-height: 15px;
+    -fx-background-color: orange;
 }
 
-.gray{
-	-fx-background-insets: 0.0,1.0,2.0;
-    -fx-background-radius: 3.0,2.0,1.0;
-	-fx-min-width: 15.0px;
-	-fx-min-height: 15.0px;
-	-fx-max-width: 15.0px;
-	-fx-max-height: 15.0px;
-	-fx-background-color: gray;
+.gray {
+    -fx-background-insets: 0.0, 1.0, 2.0;
+    -fx-background-radius: 3.0, 2.0, 1.0;
+    -fx-min-width: 15px;
+    -fx-min-height: 15px;
+    -fx-max-width: 15px;
+    -fx-max-height: 15px;
+    -fx-background-color: gray;
 }

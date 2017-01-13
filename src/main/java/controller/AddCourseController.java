@@ -17,7 +17,7 @@ import java.util.ResourceBundle;
 
 import static main.Main.conn;
 
-public class AddController implements Initializable, ControlledScreen {
+public class AddCourseController implements Initializable, ControlledScreen {
     private ScreensController myController;
     private DataList data = new DataList();
     private ObservableList<Clazz> allClasses = data.allClasses();
@@ -27,7 +27,8 @@ public class AddController implements Initializable, ControlledScreen {
     private Button cnBtn;
     @FXML
     private Button submitBtn;
-
+    @FXML
+    private Button submitBtnClass;
     @FXML
     private TextField co_idTxt;
     @FXML
@@ -42,7 +43,8 @@ public class AddController implements Initializable, ControlledScreen {
     @FXML
     private Label errMsg;
 
-    private boolean updateFailed = false;
+
+    private boolean updateFailed;
 
     @Override
     public void setScreenParent(ScreensController screenPage) {
@@ -66,7 +68,7 @@ public class AddController implements Initializable, ControlledScreen {
         });
 
         submitBtn.setOnAction(actionEvent -> {
-
+            updateFailed = false;
             if (co_idTxt.getText() == null || co_nameTxt.getText() == null || co_date_startTxt.getValue() == null || co_date_endTxt.getValue() == null) {
                 errMsg.setText("Please input all required fields");
                 errMsg.setVisible(true);
@@ -86,35 +88,40 @@ public class AddController implements Initializable, ControlledScreen {
         });
     }
 
+
     private void insertCourse(Clazz cla_id, String coid, String co_name, DatePicker co_start_time, DatePicker co_end_time) {
         PreparedStatement preparedStatement;
         String sql;
-        if (cla_id != null) {
-            sql = "INSERT INTO courses(coid, co_name, co_start_time, co_end_time, cla_id) VALUES (?,?,?,?,?)";
-        } else {
-            sql = "INSERT INTO courses(coid, co_name, co_start_time, co_end_time) VALUES (?,?,?,?)";
-        }
-        try {
-            preparedStatement = conn.prepareStatement(sql);
-            preparedStatement.setString(1, coid);
-            preparedStatement.setString(2, co_name);
-            preparedStatement.setDate(3, java.sql.Date.valueOf(co_start_time.getValue()));
-            preparedStatement.setDate(4, java.sql.Date.valueOf(co_end_time.getValue()));
+        if (coid != null && co_name != null && co_start_time != null && co_end_time != null) {
             if (cla_id != null) {
-                preparedStatement.setInt(5, cla_id.getCla_id());
-            }
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            if (e instanceof SQLIntegrityConstraintViolationException) {
-                //e.printStackTrace();
-                errMsg.setText("This Course ID already exist!!!");
-                System.out.println("This Course ID already exist!!!");
-                errMsg.setVisible(true);
-                updateFailed = true;
+                sql = "INSERT INTO courses(coid, co_name, co_start_time, co_end_time, cla_id) VALUES (?,?,?,?,?)";
             } else {
-                System.out.println("SQL ERROR!!!");
-                //e.printStackTrace();
+                sql = "INSERT INTO courses(coid, co_name, co_start_time, co_end_time) VALUES (?,?,?,?)";
             }
+            try {
+                preparedStatement = conn.prepareStatement(sql);
+                preparedStatement.setString(1, coid);
+                preparedStatement.setString(2, co_name);
+                preparedStatement.setDate(3, java.sql.Date.valueOf(co_start_time.getValue()));
+                preparedStatement.setDate(4, java.sql.Date.valueOf(co_end_time.getValue()));
+                if (cla_id != null) {
+                    preparedStatement.setInt(5, cla_id.getCla_id());
+                }
+                preparedStatement.executeUpdate();
+            } catch (SQLException e) {
+                if (e instanceof SQLIntegrityConstraintViolationException) {
+                    //e.printStackTrace();
+                    errMsg.setText("This Course ID already exist!!!");
+                    System.out.println("This Course ID already exist!!!");
+                    errMsg.setVisible(true);
+                    updateFailed = true;
+                } else {
+                    System.out.println("SQL ERROR!!!");
+                    //e.printStackTrace();
+                }
+            }
+        } else {
+            errMsg.setText("Please input all required form!!!");
         }
     }
 }
